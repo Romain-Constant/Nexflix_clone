@@ -1,5 +1,9 @@
-import Navbar from "../components/Navbar";
+import MovieVideo from "../components/MovieVideo";
 
 export default function HomePage() {
-  return <Navbar />;
+  return (
+    <div className="p-5 lg:p-0">
+      <MovieVideo />
+    </div>
+  );
 }
