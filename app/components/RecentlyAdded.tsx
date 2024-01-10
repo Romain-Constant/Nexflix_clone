@@ -10,6 +10,9 @@ async function getData() {
       WatchLists: true,
       imageString: true,
       youtubeString: true,
+      age: true,
+      release: true,
+      duration: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -43,15 +46,18 @@ export default async function RecentlyAdded() {
                 height={800}
                 className="absolute w-full h-full -z-10 rounded-lg object-cover"
               />
-              youtubeString: true,
+
               <MovieCard
                 movieId={movie.id}
                 overview={movie.overview}
                 title={movie.title}
-                watchListId={movie.WatchLists[0].id}
+                watchListId={movie.WatchLists[0]?.id}
                 youtubeUrl={movie.youtubeString}
                 watchList={movie.WatchLists.length > 0 ? true : false}
                 key={movie.id}
+                age={movie.age}
+                time={movie.duration}
+                year={movie.release}
               />
             </div>
           </div>
