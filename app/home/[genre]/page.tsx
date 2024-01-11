@@ -2,6 +2,7 @@ import { MovieCard } from "@/app/components/MovieCard";
 import { authOptions } from "@/app/utils/auth";
 import { getServerSession } from "next-auth";
 import Image from "next/image";
+import prisma from "@/app/utils/db";
 
 async function getData(category: string, userId: string) {
   switch (category) {
