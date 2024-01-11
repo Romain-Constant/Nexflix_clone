@@ -5,7 +5,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { log } from "console";
 
 interface iAppProps {
   title: string;
@@ -28,8 +27,6 @@ export default function PlayVideoModal({
   duration,
   release,
 }: iAppProps) {
-  console.log(state);
-
   return (
     <Dialog open={state} onOpenChange={() => changeState(!state)}>
       <DialogContent className="sm:max-w-[425px]">
