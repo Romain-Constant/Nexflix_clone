@@ -13,6 +13,7 @@ import {
 import { User } from "@prisma/client";
 
 import { signOut } from "next-auth/react";
+import { useState } from "react";
 
 export default function UserNav({ userSession }: { userSession: User }) {
   return (

@@ -1,11 +1,21 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Logo from "../../public/netflix_logo.svg";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Bell, Search } from "lucide-react";
 import UserNav from "./UserNav";
 import { User } from "@prisma/client";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { useState } from "react";
 
 interface linkProps {
   name: string;
@@ -22,6 +32,24 @@ const links: linkProps[] = [
 
 export default function Navbar({ userSession }: { userSession: User }) {
   const pathName = usePathname();
+  const search = useSearchParams();
+  const [searchQuery, setSearchQuery] = useState<string | null>(
+    search ? search.get("q") : ""
+  );
+  const router = useRouter();
+
+  const onSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (typeof searchQuery !== "string") {
+      return;
+    }
+
+    const encodedSearchQuery = encodeURI(searchQuery);
+    router.push(`/home/search?q=${encodedSearchQuery}`);
+    setSearchQuery("");
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto items-center justify-between px-5 sm:px-6 py-5 lg:px-8 flex">
       <div className="flex items-center">
@@ -56,7 +84,26 @@ export default function Navbar({ userSession }: { userSession: User }) {
       </div>
 
       <div className="flex items-center gap-x-8">
-        <Search className="w-5 h-5 text-gray-300 cursor-pointer" />
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Search className="w-5 h-5 text-gray-300 cursor-pointer" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>
+              <p>Search Movie</p>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <form onSubmit={onSearch}>
+              <Input
+                type="text"
+                name="search"
+                value={searchQuery || ""}
+                placeholder="Type here..."
+                onChange={(event) => setSearchQuery(event.target.value)}
+              />
+            </form>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <Bell className="w-5 h-5 text-gray-300 cursor-pointer" />
         <UserNav userSession={userSession} />
       </div>

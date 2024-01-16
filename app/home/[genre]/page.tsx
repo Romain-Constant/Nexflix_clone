@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth";
 import Image from "next/image";
 import prisma from "@/app/utils/db";
 
-async function getData(category: string, userId: string) {
+async function getData(category: string, userId: string, query: string = "") {
   switch (category) {
     case "shows": {
       const data = await prisma?.movie.findMany({
@@ -75,6 +75,7 @@ async function getData(category: string, userId: string) {
       });
       return data;
     }
+
     default: {
       throw new Error();
     }
