@@ -37,7 +37,8 @@ export default function SearchPageComponent() {
 
   const { data, isLoading } = useSWR(
     `/api/search?q=${encodedSearchQuery}`,
-    fetchPosts
+    fetchPosts,
+    { refreshInterval: 500 }
   );
 
   if (!encodedSearchQuery) {
