@@ -20,6 +20,7 @@ async function getData() {
 
 export default async function MovieVideo() {
   const data = await getData();
+  console.log(typeof data);
 
   return (
     <div className="h-[55vh] lg:h-[60vh] w-full flex justify-start items-center">
