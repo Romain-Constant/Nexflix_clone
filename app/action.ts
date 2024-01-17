@@ -6,8 +6,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "./utils/auth";
 
 export async function addToWatchlist(formData: FormData) {
-  "use server";
-
   const movieId = formData.get("movieId");
   const pathname = formData.get("pathname") as string;
   const session = await getServerSession(authOptions);
@@ -18,6 +16,7 @@ export async function addToWatchlist(formData: FormData) {
       movieId: Number(movieId),
     },
   });
+  console.log(pathname);
 
   revalidatePath(pathname);
 }
@@ -33,5 +32,6 @@ export async function deleteFromWatchlist(formData: FormData) {
       id: watchlistId,
     },
   });
+
   revalidatePath(pathname);
 }

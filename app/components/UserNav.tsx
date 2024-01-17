@@ -13,9 +13,25 @@ import {
 import { User } from "@prisma/client";
 
 import { signOut } from "next-auth/react";
-import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+interface linkProps {
+  name: string;
+  href: string;
+}
+
+const links: linkProps[] = [
+  { name: "Home", href: "/home" },
+  { name: "Tv Shows", href: "/home/shows" },
+  { name: "Movies", href: "/home/movies" },
+  { name: "Recently Added", href: "/home/recently" },
+  { name: "My List", href: "/home/user/list" },
+];
 
 export default function UserNav({ userSession }: { userSession: User }) {
+  const pathName = usePathname();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -37,6 +53,35 @@ export default function UserNav({ userSession }: { userSession: User }) {
             </p>
           </div>
         </DropdownMenuLabel>
+        <DropdownMenuSeparator className=" lg:hidden" />
+        <DropdownMenuLabel className=" lg:hidden">Pages</DropdownMenuLabel>
+        <DropdownMenuItem>
+          <ul className="flex flex-col gap-y-2 lg:hidden">
+            {links.map((link, idx) => (
+              <div key={idx}>
+                {pathName === link.href ? (
+                  <li>
+                    <Link
+                      href={link.href}
+                      className="text-white font-semibold underline text-sm"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                ) : (
+                  <li>
+                    <Link
+                      href={link.href}
+                      className="text-gray-300 font normal text-sm"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                )}
+              </div>
+            ))}
+          </ul>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>Sign out</DropdownMenuItem>
       </DropdownMenuContent>
