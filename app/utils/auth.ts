@@ -28,4 +28,8 @@ export const authOptions = {
       from: process.env.EMAIL_FROM,
     }),
   ],
+  session: {
+    // Set to jwt in order to CredentialsProvider works properly
+    strategy: "jwt",
+  },
 } satisfies NextAuthOptions;
